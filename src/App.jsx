@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
+import RepitionExercise from './Components/RepetitionExercise/index.jsx';
+import DurationExercise from './Components/DurationExercise/index.jsx';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [chosenExercise, setChosenExercise] = useState(null);
+
+  const exercises = [
+    { name: 'Push-ups', type: 'repition' },
+    { name: 'Bicycling', type: 'duration' },
+    { name: 'Jumping-Jacks', type: 'repition' },
+    { name: 'Running', type: 'duration' },
+    { name: 'Sit-ups', type: 'repition' },
+  ];
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <h1>Exercise Tracker</h1>
+      {!chosenExercise ? (
+        <div>
+          <h2>Select an Exercise:</h2>
+          <div className="exercise-buttons">
+            {exercises.map((exercise) => (
+              <button
+                key={exercise.name}
+                onClick={() => setChosenExercise(exercise)}
+              >
+                {exercise.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div>
+          <h2>{chosenExercise.name}</h2>
+          {chosenExercise.type === 'repition' ? (
+            <RepitionExercise name={chosenExercise.name} />
+          ) : (
+            <DurationExercise name={chosenExercise.name} />
+          )}
+          <button onClick={() => setChosenExercise(null)}>Return</button>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
